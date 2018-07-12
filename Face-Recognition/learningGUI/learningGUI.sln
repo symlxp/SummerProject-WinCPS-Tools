@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2035
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "learningGUI", "learningGUI.vcxproj", "{C5BEC830-FD82-377A-B6E7-C8F0BCE48253}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C5BEC830-FD82-377A-B6E7-C8F0BCE48253}.Debug|x64.ActiveCfg = Debug|x64
+		{C5BEC830-FD82-377A-B6E7-C8F0BCE48253}.Debug|x64.Build.0 = Debug|x64
+		{C5BEC830-FD82-377A-B6E7-C8F0BCE48253}.Release|x64.ActiveCfg = Release|x64
+		{C5BEC830-FD82-377A-B6E7-C8F0BCE48253}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45C61D4D-D3CD-49C8-A7CF-1979E58EC36F}
+	EndGlobalSection
+EndGlobal
