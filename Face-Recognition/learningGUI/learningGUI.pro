@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,13 +26,20 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    gmm.cpp \
+    mfcc.cpp \
+    voice.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    gmm.h \
+    mfcc.h \
+    voice.h
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    voice.ui
 INCLUDEPATH += \
         D:/opencv/new_build/install/include\
         D:/opencv/new_build/install/include/opencv2\

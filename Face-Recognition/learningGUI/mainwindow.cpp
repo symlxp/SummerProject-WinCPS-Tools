@@ -3,8 +3,9 @@
 #endif
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "voice.h"
 //#include <cstdio>
-//#include <qdebug.h>
+#include <qdebug.h>
 
 MainWindow::MainWindow(QWidget *parent) :
 	QMainWindow(parent),
@@ -35,94 +36,38 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-/*void MainWindow::read_csv(const string& filename, vector<Mat>& images, vector<int>& labels, char separator = ';')
 
-{
-
-	std::ifstream file(filename.c_str(), ifstream::in);//c_str()函数可用可不用，无需返回一个标准C类型的字符串
-
-	if (!file) {
-
-		string error_message = "No valid input file was given, please check the given filename.";
-
-		CV_Error(CV_StsBadArg, error_message);
-
-	}
-
-	string line, path, classlabel;
-
-	while (getline(file, line))//从文本文件中读取一行字符，未指定限定符默认限定符为“/n”
-
-	{
-
-		stringstream liness(line);//这里采用stringstream主要作用是做字符串的分割
-
-		getline(liness, path, separator);//读入图片文件路径以分好作为限定符
-
-		getline(liness, classlabel);//读入图片标签，默认限定符
-
-		if (!path.empty() && !classlabel.empty())//如果读取成功，则将图片和对应标签压入对应容器中 
-
-		{
-
-			images.push_back(imread(path, 0));
-
-			labels.push_back(atoi(classlabel.c_str()));
-
-		}
-
-	}
-
-}*/
 void  MainWindow::learning()
 {
 	on_close_clicked();
 	vector<Mat> images;
 	vector<int> labels;
 	ui->statuslabel->setText("人脸数据录入成功，正在学习特征！");
+	//QFileInfo fileInfo("d:/faces/model/Face_Model.xml");
+	//if (!fileInfo.exists())
+	//{
+		//学习特征
+		system("d:/release/learn.exe");
+	//}
+	//Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
+
+	//model->read("d:/faces/model/Face_Model.xml");
 	// images for me
-	for (int i = 0; i < 10; i++)
+	/*for (int i = 1; i < 11; i++)
 	{
 		Mat a;
 		a = imread(format("%s/%d.jpg", output_folder.toStdString().c_str(), i), CV_LOAD_IMAGE_GRAYSCALE);
+		equalizeHist(a, a);
 		//cv::resize(a, a, Size(120, 120));
 		images.push_back(a);
-		labels.push_back(1);
-	}
-	// images for second person
-	for (int i = 0; i < 10; i++)
-	{
-		Mat a;
-		a = imread(format("d:/faces/Bill_Gates/%d.jpg", i), CV_LOAD_IMAGE_GRAYSCALE);
-		//cv::resize(a, a, Size(120, 120));
-		images.push_back(a);
-		labels.push_back(3);
-	}
-	// images for third person
-	for (int i = 0; i < 10; i++)
-	{
-		Mat a;
-		a = imread(format("d:/faces/Amelie_Mauresmo/%d.jpg", i), CV_LOAD_IMAGE_GRAYSCALE);
-		//cv::resize(a, a, Size(120, 120));
-		images.push_back(a);
-		labels.push_back(5);
-	}
-	for (int i = 0; i < 10; i++)
-	{
-		Mat a;
-		a = imread(format("d:/faces/Abdullah_Gul/%d.jpg", i), CV_LOAD_IMAGE_GRAYSCALE);
-		//cv::resize(a, a, Size(120, 120));
-		images.push_back(a);
-		labels.push_back(7);
+		labels.push_back(66);
 	}
 
-	//Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
-	Ptr<FaceRecognizer> model = FisherFaceRecognizer::create();
-	model->train(images, labels);
-	QDir outdir(output_folder+ "/model");
-	if (!outdir.exists())
-		outdir.mkdir(output_folder + "/model");
-	model->write(format("%s/model/Face_Model.xml", output_folder.toStdString().c_str()));
+
+	//Ptr<FaceRecognizer> model = FisherFaceRecognizer::create();
+	
+	model->update(images, labels);
+	model->write("d:/faces/model/Face_Model.xml");*/
 	/*Mat a = imread("d:/Bill_Gates/%1.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 	try
 	{
@@ -137,42 +82,11 @@ void  MainWindow::learning()
 
 	//Mat img = imread("person1/2.jpg", CV_LOAD_IMAGE_GRAYSCALE);
 	//int predicted = model->predict(img);
+	system("rd /s/q d:\\faces\\dreacter_faces");
 	ui->statuslabel->setText("特征学习完毕，请关闭程序！");
 
 }
-/*QImage  MainWindow::Mat2Qimage(const Mat src)
-{
-	Mat mat;
-	//flip(src, mat,1);
-	QImage qImg;
-	if (mat.channels() == 3)                             //3 channels color image
-	{
-
-		cv::cvtColor(mat, mat, CV_BGR2RGB);
-		qImg = QImage((const unsigned char*)(mat.data),
-			mat.cols, mat.rows,
-			mat.cols*mat.channels(),
-			QImage::Format_RGB888);
-	}
-	else if (mat.channels() == 1)                    //grayscale image
-	{
-		qImg = QImage((const unsigned char*)(mat.data),
-			mat.cols, mat.rows,
-			mat.cols*mat.channels(),
-			QImage::Format_Indexed8);
-	}
-	else
-	{
-		qImg = QImage((const unsigned char*)(mat.data),
-			mat.cols, mat.rows,
-			mat.cols*mat.channels(),
-			QImage::Format_RGB888);
-	}
-
-	return qImg;
-
-}
-
+/*
 Mat MainWindow::relight(Mat src, double alpha, int beta)
 {
 	//qDebug() << alpha<<endl;
@@ -241,48 +155,40 @@ QImage  MainWindow::Mat2Qimage(const Mat src)
 		return QImage();
 	}
 }
-/*
-void  MainWindow::TakePhoto()
-{
-    static int i =1;
-    ui.pushButton_3->setEnabled(false);
-    ui.label_1->setPixmap(QPixmap::fromImage(TakeP));
-
-    sprintf(file,"../Images/Pic_%d.jpg",i);
-    i++;
-    imwrite(file,frame);
-    waitKey(10);
-    ui.pushButton_3->setEnabled(true);
-    //cout<<"jjjjj"<<endl;
-
-}*/
 
 
 
 
 void MainWindow::on_open_clicked()
 {//打开摄像头并初始化计时器捕获第一张图
-    ui->open->setEnabled(false);
+    voice *voicerec=new voice();
+	connect(voicerec, SIGNAL(sendData()), this, SLOT(paizhao()));
+    voicerec->exec();
+}
+void MainWindow::paizhao()
+{
+	ui->open->setEnabled(false);
 	ui->close->setEnabled(true);
 	ui->statuslabel->setText("摄像头开启成功，请将人脸置入摄像头可见区域！");
 	face_detect_count = 0;
-    if (cap.isOpened())
-        cap.release();     //decide if capture is already opened; if so,close it
-    cap.open(0);           //open the default camera
-    if (cap.isOpened())
-    {
-        //int rate= cap.get(CV_CAP_PROP_FPS);
-        cap >> frame;
-        if (!frame.empty())
-        {
-            image = Mat2Qimage(frame);
-            ui->label->setPixmap(QPixmap::fromImage(image));
-            timer = new QTimer(this);
-            timer->setInterval(1000/30);   //set timer match with FPS
-            connect(timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
-            timer->start();
-        }
-    }
+	if (cap.isOpened())
+		cap.release();     //decide if capture is already opened; if so,close it
+	cap.open(0);           //open the default camera
+	if (cap.isOpened())
+	{
+		//int rate= cap.get(CV_CAP_PROP_FPS);
+		cap >> frame;
+		if (!frame.empty())
+		{
+			image = Mat2Qimage(frame);
+			ui->label->setPixmap(QPixmap::fromImage(image));
+			timer = new QTimer(this);
+			timer->setInterval(1000 / 30);   //set timer match with FPS
+			connect(timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
+			timer->start();
+		}
+	}
+
 }
 void MainWindow::nextFrame()
 {//反复调用此函数，获得视频
@@ -332,7 +238,7 @@ int MainWindow::recognize(Mat &src)
 	Mat face;
 	Mat gray;
 	cvtColor(src, gray, CV_BGR2GRAY);//转为灰度图
-	//equalizeHist(gray, gray);
+	equalizeHist(gray, gray);
 	int doLandmark = 1;// do landmark detection
 					   ///////////////////////////////////////////
 					   // frontal face detection / 68 landmark detection
@@ -377,8 +283,8 @@ int MainWindow::recognize(Mat &src)
 				//double b = 1.0+ qrand()*2.0 / (double)RAND_MAX;
 				//if (face_detect_count > 25)
 				//	face=relight(face, b, a);
-				cv::resize(face,face, Size(250, 250));
-				imwrite(format("%s/%d.jpg", output_folder.toStdString().c_str(), face_detect_count - 11), face);
+				cv::resize(face,face, Size(120, 120));
+				imwrite(format("%s/%d.jpg", output_folder.toStdString().c_str(), face_detect_count - 10), face);
 				//imshow("ss", face);
 				free(pBuffer);
 				return 2;

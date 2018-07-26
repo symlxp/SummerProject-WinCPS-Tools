@@ -31,7 +31,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-	//void read_csv(const string & filename, vector<Mat>& images, vector<int>& labels, char separator);
 	QImage Mat2Qimage(const Mat src);
 
 private:
@@ -39,7 +38,8 @@ private:
     Mat frame;
     //Mat CannyImg;
     QImage image;
-	Ptr<FaceRecognizer> modelPCA;
+	//Ptr<FaceRecognizer> modelPCA;
+
     //char file[20];
     //人脸识别
     //Mat edges;
@@ -66,6 +66,7 @@ private slots:
 	int recognize(Mat & src);
     void on_open_clicked();
 	void learning();
+    void paizhao();
     //void on_test_clicked();
 	//void nextFrame1();
 
